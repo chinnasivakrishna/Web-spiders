@@ -16,6 +16,9 @@ app.use(morgan('dev'));
 // Routes
 app.use('/api', taskRoutes);
 app.use('/api/user', authRoutes);
+app.use('/',(req,res)=>{
+    res.json("Web Spider task manager is live")
+});
 
 // Error Handling
 app.use(errorHandler);
