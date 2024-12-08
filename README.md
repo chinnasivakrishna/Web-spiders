@@ -77,7 +77,7 @@ Access the complete Postman collection to test the API endpoints:
 
 3. **Start the Server**:
    ```bash
-   npm start
+   node app.js
    ```
    The application will run on [http://localhost:5000](http://localhost:5000).
 
