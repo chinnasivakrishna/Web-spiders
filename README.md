@@ -1,58 +1,59 @@
-Here is a **README.md** file for your project that provides a detailed explanation of the application:
 
-```markdown
+---
+
 # Web Spider Task Manager
 
-The **Web Spider Task Manager** is a robust task management application built using Node.js, Express.js, MongoDB, and Mongoose. It offers user authentication, task creation, management features, and API endpoints for secure access to the functionalities. 
-
-## Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Environment Variables](#environment-variables)
-- [Project Structure](#project-structure)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
+Web Spider Task Manager is a full-stack task management application built with Node.js, Express, MongoDB, and JWT authentication. It allows users to register, log in, and manage their tasks effectively with features like task creation, updating, filtering, and deletion.
 
 ---
 
 ## Features
 
-1. **User Authentication**:
-   - Secure user registration with hashed passwords.
-   - Login functionality with JWT-based authentication.
+### Authentication
+- **User Registration**: Register with a username, email, and password.
+- **User Login**: Log in with email and password to get a JWT token.
+- **JWT Authentication**: Protect routes with JWT-based authentication.
 
-2. **Task Management**:
-   - Create tasks with attributes like title, description, status, priority, and due date.
-   - View all tasks with filtering (by status and priority) and sorting (by due date or created date).
-   - Update task details.
-   - Delete tasks.
-
-3. **Validation**:
-   - Input validation using Joi for secure and error-free task creation and updates.
-
-4. **Middleware**:
-   - Authentication middleware ensures secure access to task-related endpoints.
-
-5. **Error Handling**:
-   - Centralized error handling middleware for consistent error responses.
-
-6. **Logging**:
-   - Morgan is used for request logging in development mode.
-
-7. **RESTful API**:
-   - Well-defined endpoints for all features.
+### Task Management
+- **Create Tasks**: Add new tasks with details such as title, description, status, priority, and due date.
+- **View Tasks**: Fetch all tasks with filters (status, priority) and sorting (due date or creation date).
+- **Edit Tasks**: Update task details like status or priority.
+- **Delete Tasks**: Remove tasks permanently.
 
 ---
 
-## Installation
+## Tech Stack
 
+### Backend
+- **Node.js**: Server-side JavaScript runtime.
+- **Express**: Web framework for building REST APIs.
+- **MongoDB**: NoSQL database for storing user and task data.
+- **Mongoose**: ODM library for MongoDB.
+- **JWT**: For secure authentication.
+- **Bcrypt**: Password hashing for security.
+
+### Middleware
+- **Morgan**: HTTP request logger.
+- **Custom Middleware**: Error handling and JWT authentication.
+
+---
+
+## Installation and Setup
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) installed on your machine.
+- [MongoDB](https://www.mongodb.com/) database running locally or remotely.
+- A `.env` file with the following keys:
+  ```env
+  PORT=5000
+  MONGO_URI=your_mongo_connection_string
+  JWT_SECRET=your_jwt_secret
+  ```
+
+### Steps
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-repository/web-spider-task-manager.git
+   git clone https://github.com/your-repo/web-spider-task-manager.git
    cd web-spider-task-manager
    ```
 
@@ -61,118 +62,89 @@ The **Web Spider Task Manager** is a robust task management application built us
    npm install
    ```
 
-3. **Set Environment Variables**:
-   Create a `.env` file in the root directory and define the following:
-   ```env
-   PORT=5000
-   MONGO_URI=<your_mongodb_connection_string>
-   JWT_SECRET=<your_jwt_secret_key>
-   ```
-
-4. **Run the Server**:
+3. **Start the Server**:
    ```bash
    npm start
    ```
-   The server will run on `http://localhost:5000`.
-
----
-
-## Usage
-
-1. Use a tool like [Postman](https://www.postman.com/) or [cURL](https://curl.se/) to interact with the API.
-2. Register a user using the `/api/user/register` endpoint.
-3. Authenticate using the `/api/user/login` endpoint to get a JWT token.
-4. Use the token to access task management endpoints like creating, viewing, updating, and deleting tasks.
+   The application will run on [http://localhost:5000](http://localhost:5000).
 
 ---
 
 ## API Endpoints
 
-### Authentication Endpoints
-- **POST /api/user/register**: Register a new user.
-- **POST /api/user/login**: Login and obtain a JWT token.
+### Authentication Routes (`/api/user`)
+- **POST `/register`**: Register a new user.
+  ```json
+  {
+    "username": "example",
+    "email": "example@example.com",
+    "password": "securepassword"
+  }
+  ```
+- **POST `/login`**: Log in as a registered user.
+  ```json
+  {
+    "email": "example@example.com",
+    "password": "securepassword"
+  }
+  ```
 
-### Task Endpoints
-- **POST /api/tasks**: Create a task (requires authentication).
-- **GET /api/tasks**: Retrieve all tasks with optional filters and sorting.
-- **GET /api/tasks/:id**: Retrieve a task by ID.
-- **PUT /api/tasks/:id**: Update a task by ID.
-- **DELETE /api/tasks/:id**: Delete a task by ID.
+### Task Routes (`/api/tasks`)
+- **POST `/tasks`**: Create a new task (JWT protected).
+- **GET `/tasks`**: Get all tasks with optional filters (status, priority) and sorting (due date or creation date).
+- **GET `/tasks/:id`**: Fetch a single task by ID (JWT protected).
+- **PUT `/tasks/:id`**: Update a task by ID (JWT protected).
+- **DELETE `/tasks/:id`**: Delete a task by ID (JWT protected).
 
 ---
 
-## Environment Variables
+## Models
 
-| Variable Name | Description                                |
-|---------------|--------------------------------------------|
-| `PORT`        | Port on which the server will run          |
-| `MONGO_URI`   | MongoDB connection string                  |
-| `JWT_SECRET`  | Secret key for generating JWT tokens       |
-
----
-
-## Project Structure
-
-```
-web-spider-task-manager/
-├── config/
-│   └── db.js                 # Database connection configuration
-├── models/
-│   ├── Task.js               # Mongoose Task schema
-│   └── User.js               # Mongoose User schema
-├── routes/
-│   ├── authRoutes.js         # User authentication routes
-│   └── taskRoutes.js         # Task management routes
-├── middlewares/
-│   ├── authMiddleware.js     # JWT authentication middleware
-│   └── errorHandler.js       # Global error handling middleware
-├── validations/
-│   └── taskValidation.js     # Joi validation for tasks
-├── .env                      # Environment variables
-├── app.js                    # Main application file
-├── package.json              # Project dependencies and scripts
-└── README.md                 # Project documentation
+### User Model
+```javascript
+{
+  username: String,
+  email: String,
+  password: String,
+  createdAt: Date,
+  updatedAt: Date
+}
 ```
 
----
-
-## Technologies Used
-
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB, Mongoose
-- **Authentication**: JWT, bcrypt.js
-- **Validation**: Joi
-- **Logging**: Morgan
-- **Error Handling**: Custom middlewares
-
----
-
-## Contributing
-
-Contributions are welcome! Please create a pull request or open an issue for discussion.
+### Task Model
+```javascript
+{
+  title: String,
+  description: String,
+  status: ["TODO", "IN_PROGRESS", "COMPLETED"],
+  priority: ["LOW", "MEDIUM", "HIGH"],
+  dueDate: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
 
 ---
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## Middleware
+1. **Authentication Middleware**: Verifies JWT tokens for protected routes.
+2. **Error Handler**: Catches and formats server errors.
 
 ---
 
-## Acknowledgements
+## Validation
+- **Task Validation**: Joi schema validates task input before saving.
 
-- MongoDB and Mongoose for database operations.
-- JWT for secure authentication.
-- Joi for robust input validation.
-- Morgan for development logging.
+---
+
+## Future Enhancements
+- User roles and permissions.
+- Integration with external APIs.
+- Real-time updates using WebSockets.
 
 ---
 
 ## Author
+Developed by [Chinna Siva Krishna Thota](https://github.com/chinnasivakrishna).
 
-Developed by **[Your Name]**.
 
-For queries, contact: **your.email@example.com**
-```
-
-Replace placeholders like `<your_mongodb_connection_string>`, `<your_jwt_secret_key>`, and `your-repository` with actual values. Update the "Author" and "Contact" sections as per your details.
