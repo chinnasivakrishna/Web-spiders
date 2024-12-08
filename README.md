@@ -38,6 +38,19 @@ Web Spider Task Manager is a full-stack task management application built with N
 
 ---
 
+## Live Demo
+
+- **Deployed Link**: [Web Spider Task Manager](https://web-spiders-ruuh.onrender.com/)
+
+---
+
+## Postman Collection
+
+Access the complete Postman collection to test the API endpoints:  
+[Postman Collection Link](https://your-postman-collection-link.com)
+
+---
+
 ## Installation and Setup
 
 ### Prerequisites
@@ -145,6 +158,5 @@ Web Spider Task Manager is a full-stack task management application built with N
 ---
 
 ## Author
-Developed by [Chinna Siva Krishna Thota](https://github.com/chinnasivakrishna).
-
+Developed by [Chinna Siva Krishna Thota]([https://github.com/your-profile](https://github.com/chinnasivakrishna)).
 
