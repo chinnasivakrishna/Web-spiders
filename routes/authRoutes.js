@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User'); // User model
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
+const JWT_SECRET = process.env.JWT_SECRET || 'spiders';
 
 // **Register Route**
 router.post('/register', async (req, res) => {
